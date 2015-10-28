@@ -9,6 +9,8 @@ body{
 }
 
 .rating {
+  font-size: 20pt;
+  color: #FFD700;
   unicode-bidi: bidi-override;
   direction: rtl;
 }
@@ -19,10 +21,29 @@ body{
 }
 .rating > span:hover:before,
 .rating > span:hover ~ span:before {
-   content: "\2605";
+  content: "\2605";
+  position: absolute;
+}
+
+.rated {
+  content: "\2605";
    position: absolute;
 }
 
 .rating{
 	text-align: left;
+}
+
+.color {
+  content: "\2605";
+}
+
+@media(min-width: 992px){
+
+  form {
+    width: 50%;
+
+  }
+
+
 }

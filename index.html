@@ -19,7 +19,7 @@
 		
 		<div class="container">
 			<div class="row">
-				<div id="img-box" class="col-xs-12 col-lg-3">
+				<div id="img-box" class="col-xs-12 col-md-3">
 					<img src="img/placeholder.png" /><br>
 					<p>average rating</p>
 				</div>
@@ -34,11 +34,17 @@
 			<div class="rating">
 				<span id="5_star">☆</span><span id="4_star">☆</span><span id="3_star">☆</span><span id="2_star">☆</span><span id="1_star">☆</span>
 			</div>
-            <label for="title">Review Title</label><br />
-            <input id="title"></input> <br />
-            <label for="new-review">Review</label><br />
-            <input id="new-review"></input> <br />
-            <input type="submit" value="submit"></input>
+			<div class="form-group">
+	            <label for="title">Review Title</label><br />
+	            <input class="form-control" id="title"></input> <br />
+	        </div>
+	        <div class="form-group">
+	            <label for="new-review">Review</label><br />
+	            <textarea class="form-control" type="text" id="new-review"></textarea> <br />
+	        </div>
+	        <div class="form-group">
+            	<input class="form-control" type="submit" value="submit"></input>
+           	</div>
 		</form>
 		</div>
 
