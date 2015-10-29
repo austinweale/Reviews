@@ -3,33 +3,27 @@ Parse.initialize("JBRs0gj6XUAiNnVz44x7QK8GIURYwIDVU00yRYIG", "6Z8kHIuoh1KVyIt09D
 var Review = Parse.Object.extend('Review');
 
 
-var starRating = -1;
+var itemCount;
+var totalStars;
 
 
 window.onload = function(){
-	$("#review-form").submit(submit);
+	$("#form").submit(submit);
 
-	var stars = document.querySelectorAll(".rating span");
-
-	for(var i = 0; i < stars.length; i++){
-		stars[i].onclick = changeRating;
-	}
+	$("#rating").raty({path: "raty/lib/images/"});
+    $("#rating").onclick = changeRating;
     getData();
 
 };
 
 function changeRating(){
-	starRating = parseInt(this.id);
-    var stars = document.querySelectorAll(".rating span");
-    for(var i = 1; i <= stars.length; i++){
-        if(i <= starRating){
-            $(stars[i]).addClass("rated");
-        }
-    }
+	var score = $("rating").raty('score');
+    alert(score);
 
 }
 
 function submit(){
+
     var title = $("#title").val();
     var review = $("#new-review").val();
 
@@ -39,23 +33,20 @@ function submit(){
 
     currentReview.set("title", title);
 
-    currentReview.set("stars", starRating);
+    currentReview.set("stars", $("#rating").raty('score'));
 
     currentReview.save();
+
+    getData();
 }
 
 function getData(){
-    // Set up a new query for our Music class
+    itemCount = 0;
+    totalStars = 0;
+    
     var query = new Parse.Query(Review);
-
-
-    // Set a parameter for your query -- where the website property isn't missing
     query.notEqualTo("title", "");
 
-
-    /* Execute the query using ".find".  When successful:
-        - Pass the returned data into your buildList function
-    */
     query.find({
         success:function(results){
             buildList(results);
@@ -64,30 +55,44 @@ function getData(){
 }
 
 var buildList = function(data) {
-    // Empty out your unordered list
-    $('#review-area').empty();
+    $('#review-area').html("");
     
-    // Loop through your data, and pass each element to the addItem function
     for(var i = 0; i < data.length; i++){
-        addItem(data[i]);
+        addItem(data[i], i);
     }
+    var average = createStarRating(Math.round(totalStars / itemCount));
+    $("#average").append(average);
 }
 
-var addItem = function(item) {
-    // Get parameters (website, band, song) from the data item passed to the function
+var addItem = function(item, num) {
+    
     var title = item.get("title");
     var stars = item.get("stars");
     var review = item.get("review");
-
-    // Append li that includes text from the data item
+    itemCount++;
+    totalStars += stars;
+    
     var div = document.createElement("div");
+    $(div).addClass("col-xs-12");
 
+    var rating = createStarRating(stars);
     var h2 = document.createElement("h3");
-    $(h2).html(title);
+    $(h2).append(rating);
+    $(h2).append(title);
+
+    var p = document.createElement("p");
+    $(p).html(review);
 
 
+    $(div).addClass("line");
+    $(div).append(h2);
+    $(div).append(p);
+    $("#review-area").append(div);
+}
 
-    var rating = document.createElement("div");
+function createStarRating(stars){
+    var rating = document.createElement("span");
+    $(rating).addClass("star");
     for (var i = 1; i <= 5; i++){
         var currentStar = document.createElement("span");
         if(i <= stars){
@@ -96,14 +101,13 @@ var addItem = function(item) {
             $(currentStar).html("☆");
         }
         $(rating).append(currentStar);
-
     }
 
-    $(div).html(title + " " + stars + " " + review);
-
-    $("#review-area").append(h2);
-    $("#review-area").append(rating);
-    $("#review-area").append(div);
+    return rating;
 
 }
+
+
+
+
 

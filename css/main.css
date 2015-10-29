@@ -4,8 +4,22 @@ body{
 	font-family: Helvetica, sans-serif;
 }
 
+.jumbotron {
+  color: white;
+  text-align: center;
+  background-color: #d84f4f;
+}
+
+#review-form{
+  border-top: 2px solid #d84f4f;
+  border-bottom: 2px solid #d84f4f;
+  
+  margin-bottom: 30px;
+}
+
 #img-box {
     text-align: center;
+    font-size: 16pt;
 }
 
 .rating {
@@ -13,16 +27,6 @@ body{
   color: #FFD700;
   unicode-bidi: bidi-override;
   direction: rtl;
-}
-.rating > span {
-  display: inline-block;
-  position: relative;
-  width: 1.1em;
-}
-.rating > span:hover:before,
-.rating > span:hover ~ span:before {
-  content: "\2605";
-  position: absolute;
 }
 
 .rated {
@@ -34,8 +38,14 @@ body{
 	text-align: left;
 }
 
-.color {
-  content: "\2605";
+.star {
+  color: #FFD700;
+  padding-right: 10px;
+}
+
+.line {
+  border-top: 1px solid #d6d6d6;
+  padding: 10px;
 }
 
 @media(min-width: 992px){
