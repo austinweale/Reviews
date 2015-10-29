@@ -35,9 +35,11 @@ function submit(){
 
     currentReview.set("stars", $("#rating").raty('score'));
 
+    currentReview.set("votes", 0);
+
     currentReview.save();
 
-    getData();
+    //getData();
 }
 
 function getData(){
@@ -69,6 +71,9 @@ var addItem = function(item, num) {
     var title = item.get("title");
     var stars = item.get("stars");
     var review = item.get("review");
+    var votes = item.get("votes");
+    var objectID = item.id;
+
     itemCount++;
     totalStars += stars;
     
@@ -87,6 +92,7 @@ var addItem = function(item, num) {
     $(div).addClass("line");
     $(div).append(h2);
     $(div).append(p);
+    $(div).append(createUpvote(votes, objectID, num));
     $("#review-area").append(div);
 }
 
@@ -105,6 +111,53 @@ function createStarRating(stars){
 
     return rating;
 
+}
+
+function createUpvote(currentCount, objectID, num){
+    var div = document.createElement("div");
+    $(div).addClass("upvote");
+    
+
+
+    var count = document.createElement("span");
+    $(count).addClass("count");
+    $(count).html(currentCount);
+    count.id = num + "";
+
+    var up = document.createElement("a");
+    $(up).addClass("upvote");
+    up.onclick = function(){
+        $(this).addClass("upvote-on")
+        incrementVote(1, objectID, num);
+    };
+    
+
+    var down = document.createElement("a");
+    $(down).addClass("downvote");
+    down.onclick = function(){
+        $(this).addClass("downvote-on")
+        incrementVote(-1, objectID, num);
+    };
+    $(div).append(up);
+    $(div).append(count);
+    $(div).append(down);
+    return div;
+}
+
+function incrementVote(vote, objectID, num){
+    var query = new Parse.Query(Review);
+
+    query.find("objectId", objectID);
+
+    query.find({
+        success:function(results){
+            current = results[num];
+            var change = current.get("votes") + vote;
+            current.set("votes", change);
+            $("#" + num).html(change);
+            current.save();
+        }
+    })
 }
 
 
