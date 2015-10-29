@@ -147,7 +147,7 @@ function createUpvote(currentCount, objectID, num){
 function incrementVote(vote, objectID, num){
     var query = new Parse.Query(Review);
 
-    query.find("objectId", objectID);
+    query.notEqualTo("title", "");
 
     query.find({
         success:function(results){
