@@ -52,6 +52,7 @@ body{
   float: right;
 }
 
+/*form won't extend the whole way onlong screens*/
 @media(min-width: 992px){
 
   form {
